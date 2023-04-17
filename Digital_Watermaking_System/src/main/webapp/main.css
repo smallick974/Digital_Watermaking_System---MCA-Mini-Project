@@ -1,0 +1,52 @@
+@charset "UTF-8";
+
+.back_color{
+	background-color:#66B2FF;
+}
+
+table {
+	 border-spacing: 20px;
+	 width: 50%;
+}
+
+.submit_style {
+	border-radius:8px;display:inline-block;overflow:hidden; background-color: #008CBA;
+  	border: none;
+  	color: white;
+  	padding: 15px 32px;
+  	text-align: center;
+ 	text-decoration: none;
+  	font-size: 16px;
+  	margin: 4px 2px;
+}
+
+.submit_style:hover {
+	color:white!important;
+	background-color:#00ace6!important
+}
+
+.disabled_button_style{
+	border-radius:8px;display:inline-block;overflow:hidden;
+  	border: none;
+  	color: white;
+  	padding: 15px 32px;
+  	text-align: center;
+ 	text-decoration: none;
+  	font-size: 16px;
+  	margin: 4px 2px;
+	background-color:#00ace6;
+}
+
+td{
+	width: 25%;
+}
+
+.wrap-text{
+	word-wrap:break-word;
+	
+}
+
+.file-name-display {
+	border-radius:30px;
+	padding: 5px 5px;
+}

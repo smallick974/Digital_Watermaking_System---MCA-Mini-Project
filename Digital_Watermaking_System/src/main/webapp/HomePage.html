@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="main.css"  />
+<title>Welcome</title>
+<script src="jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('input[type="file"]').change(function(e){
+		var btn_watermark=document.getElementById("btn_add_watermark");
+    	if(e.target.id=='btn_file_selector'){
+    		var filename=e.target.files[0].name;
+            var uploaded_file = document.getElementById('btn_file_selector');
+            var filesize=0;
+            if(uploaded_file.files.length>0){
+            	var fsize=uploaded_file.files.item(0).size;
+    			filesize=(fsize/(1000*1000)).toFixed(1); //in MB
+            }
+    		if(filename.substring(filename.lastIndexOf("."), filename.length)!=".pdf"){
+    			btn_watermark.classList.remove("submit_style");
+    			btn_watermark.classList.add("disabled_button_style");
+    			btn_watermark.disabled=true;
+    			$("#error_msg_div").text("Invalid file type");
+    			document.getElementById("btn_file_selector").value = "";
+    		}
+    		else if(uploaded_file.files.length > 0 && filesize>5){
+    			btn_watermark.classList.remove("submit_style");
+    			btn_watermark.classList.add("disabled_button_style");
+    			btn_watermark.disabled=true;
+    			$("#error_msg_div").text("File size too large (Maximum allowed limit: 5MB)");
+    			document.getElementById("btn_file_selector").value = "";
+    		}
+    		else{
+    			$("#lbl_file").text(e.target.files[0].name);
+       		 	$("#div_file").css("background-color","#66B2FF");
+       		 	$("#error_msg_div").text("");
+       		 	btn_watermark.classList.remove("disabled_button_style");
+ 				btn_watermark.classList.add("submit_style");
+ 				btn_watermark.disabled=false;
+    		}
+    	}
+    	else if(e.target.id=='btn_logo_selector'){
+    		var filename=e.target.files[0].name;
+    		var uploaded_img = document.getElementById('btn_logo_selector');
+    		var img_size=0;
+    		if(uploaded_img.files.length>0){
+    			var fsize=uploaded_img.files.item(0).size;
+    			img_size=(fsize/1000).toFixed(1);  //in KB
+    		}
+    		var ext=filename.substring(filename.lastIndexOf("."), filename.length);
+    		if(!(ext==".png" || ext==".jpg" || ext==".jpeg")){
+    			btn_watermark.classList.remove("submit_style");
+    			btn_watermark.classList.add("disabled_button_style");
+    			btn_watermark.disabled=true;
+    			$("#error_msg_div").text("Invalid file type (allowed types: .jpg, .png, .jpeg)");
+    			document.getElementById("btn_logo_selector").value = "";
+    		}
+    		else if(uploaded_img.files.length>0 && img_size>100){
+    			btn_watermark.classList.remove("submit_style");
+    			btn_watermark.classList.add("disabled_button_style");
+    			btn_watermark.disabled=true;
+    			$("#error_msg_div").text("Image size too large (Maximum allowed limit: 100KB)");    		
+    			document.getElementById("btn_logo_selector").value = "";
+    		}
+    		else{
+    			$("#lbl_logo").text(e.target.files[0].name);
+       		 	$("#div_logo").css("background-color","#66B2FF");
+       		 	$("#error_msg_div").text("");
+    			btn_watermark.classList.remove("disabled_button_style");
+ 				btn_watermark.classList.add("submit_style");
+ 				btn_watermark.disabled=false;
+    		}
+    	} 
+    });
+});
+
+function validateForm(){
+	var file=document.getElementById("btn_file_selector");
+	var logo=document.getElementById("btn_logo_selector");
+	if(file.files.length==0 && logo.files.length==0){
+		$("#error_msg_div").text("Select the file and watermark image");
+		return false;
+	}
+	else if(file.files.length==0){
+		$("#error_msg_div").text("Select the PDF file");
+		return false;
+	}
+	else if(logo.files.length==0){
+		$("#error_msg_div").text("Select the image to add as watermark");
+		return false;
+	}
+	else{
+		var form=document.getElementById("watermark_form");
+		form.action='UploadFileHandler';
+		form.submit();
+	}
+}
+
+</script>
+</head>
+<body style="background-color:#00bfff">
+<div align="center"  ><br/>
+	<h1 style="font-family: sans-serif">Watermark your PDF and secure it in a go...</h1><br/><br/>
+	<form method="post" enctype="multipart/form-data"  id="watermark_form">
+	<table style="background-color: white;">
+		<tr align="center">
+			<td >
+					<input type="file"  id="btn_file_selector"  name="file_upload" hidden="true" accept = ".pdf"  /><br/>
+					<label for="btn_file_selector" >
+						<img alt="Select a file to upload" src="images/upload_file.png" width="250px"  height="250px"   title="Upload your file"/>
+					</label>
+			</td>
+			<td>
+					<input type="file"  id="btn_logo_selector"  name="logo_upload" hidden="true"/><br/>
+					<label for="btn_logo_selector" >
+						<img alt="Select a logo to upload" src="images/upload_watermark.png" width="250px"  height="250px"   title="Upload your logo"/>
+					</label>
+			</td>
+		</tr>
+		<tr align="center">
+			<td>
+				<div class="file-name-display" id="div_file">
+					<label id="lbl_file"  class="wrap-text" ></label>
+				</div>
+			</td>
+			<td>
+				<div class="file-name-display" id="div_logo">
+					<label id="lbl_logo" class="wrap-text"></label>
+				</div>
+			</td>
+		</tr>
+		<tr >
+			<td colspan="2" align="center">
+				<div id="error_msg_div"  style="color:red;font-family: sans-serif"> </div>
+			</td>
+		</tr>
+		<tr align="center">
+			<td colspan="2">
+				<input type="submit"  id="btn_add_watermark" value="Add Watermark" class="submit_style"  onclick="return validateForm();"/>
+				<input type="hidden" value="HomePage" id="input_hidden"  name="input_hidden"/>
+			</td>
+		</tr>
+		</table>
+	</form>
+</div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="main.css"  />
+<title>Welcome</title>
+<script src="jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		const urlParams = new URLSearchParams(location.search);
+		if(urlParams.has('watermarked') && urlParams.get('watermarked')=='true'){
+		$("#msg_div").text("Files created successfully! Click Preview to view your watermarked PDF.");    	
+	}
+	});
+	
+	function goToHome(){
+		window.location.href("HomePage.html");
+	}
+</script>
+</head>
+<body style="background-color:#00bfff">
+	<div align="center"  ><br/>
+		<h1 style="font-family: sans-serif">Watermark your PDF and secure it in a go...</h1><br/><br/>
+		<form method="post" enctype="multipart/form-data"  id="watermark_download">
+		<table style="background-color: white;">
+			<tr>
+				<td colspan="2" align="center">
+					<div id="msg_div"  style="color:green;font-family: sans-serif"> </div>
+				</td>
+			</tr>
+			<tr align="center">
+				<td colspan="2">
+					<input type="hidden" value="Watermarked" id="input_hidden"  name="input_hidden"/>
+					<input type="submit" id="btn_preview" value="Preview" class="submit_style"  onclick="form.action='DownloadFileHandler'" formtarget="_blank" />
+					<input type="submit" id="btn_home" value="Home" class="submit_style"  onclick="form.action='UploadFileHandler'" />
+				</td>
+			</tr>
+		</table>
+		</form>
+	</div>
+</body>
+</html>
